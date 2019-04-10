@@ -15,6 +15,7 @@ namespace Termo.Generales.Data
 
         public DbSet<Linea> Lineas { get; set; }
         public DbSet<Producto> Productos { get; set; }
+        public DbSet<FormaPago> FormasPagos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

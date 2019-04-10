@@ -17,6 +17,11 @@ namespace Termo.Generales.API.Helpers
 
             });
 
+            CreateMap<Linea, LineasToReturnDTO>();
+            CreateMap<LineaForCreationDTO, Linea>();
+
+            CreateMap<FormaPago, FormaPagoToReturnDTO>();
+
 
             //CreateMap<ProductoForCreationDTO, Producto>().ReverseMap();
 
