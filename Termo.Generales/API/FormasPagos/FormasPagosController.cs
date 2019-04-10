@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Termo.Generales.API.DTOs;
+using Termo.Generales.Core;
 using Termo.Generales.Data;
 
 namespace Termo.Generales.API.Controllers
@@ -33,7 +34,7 @@ namespace Termo.Generales.API.Controllers
             return Ok(formasPagosToReturn);
         }
 
-        [HttpGet("{ID_FormaPago}")]
+        [HttpGet("{ID_FormaPago}", Name ="GetFormaPago")]
         public async Task<IActionResult> Get(int ID_FormaPago)
         {
             var formaPago = await this._context.FormasPagos.FirstOrDefaultAsync(x => x.ID_FormaPago == ID_FormaPago);
@@ -41,6 +42,24 @@ namespace Termo.Generales.API.Controllers
             var formaPagoToReturn = _mapper.Map<FormaPagoToReturnDTO>(formaPago);
 
             return Ok(formaPagoToReturn);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody]FormaPagoForCreationDTO formaPagoCreationDTO)
+        {
+            var formaPago = _mapper.Map<FormaPago>(formaPagoCreationDTO);
+
+            await this._context.FormasPagos.AddAsync(formaPago);
+
+            var formaPagoToReturn = _mapper.Map<FormaPagoToReturnDTO>(formaPago);
+
+            var result = await this._context.SaveChangesAsync() > 0;
+
+            if (result)
+                return CreatedAtRoute("GetFormaPago", new { formaPago.ID_FormaPago }, formaPagoToReturn);
+
+            throw new Exception("No fue posible guardar la forma de pago");
+
         }
     }
 }

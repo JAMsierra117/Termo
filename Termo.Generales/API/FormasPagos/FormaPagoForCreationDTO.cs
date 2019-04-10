@@ -8,7 +8,9 @@ namespace Termo.Generales.API.DTOs
     public class FormaPagoForCreationDTO
     {
         [Required]
-        public int CodigoFormaPago { get; set; }
+        [Range(1, int.MaxValue)]
+        public Nullable<int> CodigoFormaPago { get; set; }
+        [Required]
         [StringLength(200)]
         public string NombreFormaPago { get; set; }
     }

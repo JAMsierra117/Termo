@@ -21,7 +21,7 @@ namespace Termo.Generales.API.Helpers
             CreateMap<LineaForCreationDTO, Linea>();
 
             CreateMap<FormaPago, FormaPagoToReturnDTO>();
-
+            CreateMap<FormaPagoForCreationDTO, FormaPago>();
 
             //CreateMap<ProductoForCreationDTO, Producto>().ReverseMap();
 
