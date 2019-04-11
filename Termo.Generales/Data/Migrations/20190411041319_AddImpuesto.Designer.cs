@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Termo.Generales.Data;
 
 namespace Termo.Generales.Data.Migrations
 {
     [DbContext(typeof(GeneralesContext))]
-    partial class GeneralesContextModelSnapshot : ModelSnapshot
+    [Migration("20190411041319_AddImpuesto")]
+    partial class AddImpuesto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -161,29 +163,6 @@ namespace Termo.Generales.Data.Migrations
                     b.HasIndex("ID_Linea");
 
                     b.ToTable("Productos");
-                });
-
-            modelBuilder.Entity("Termo.Generales.Core.ZonaImpuesto", b =>
-                {
-                    b.Property<int>("ID_ZonaImpuesto")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Activo");
-
-                    b.Property<DateTime?>("Actualizacion");
-
-                    b.Property<DateTime?>("Alta");
-
-                    b.Property<int?>("ID_UsuarioActualizacion");
-
-                    b.Property<int?>("ID_UsuarioAlta");
-
-                    b.Property<string>("NombreZonaImpuesto");
-
-                    b.HasKey("ID_ZonaImpuesto");
-
-                    b.ToTable("ZonasImpuestos");
                 });
 
             modelBuilder.Entity("Termo.Generales.Core.Producto", b =>
