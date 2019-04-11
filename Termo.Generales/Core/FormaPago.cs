@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Termo.Generales.Core
 {
-    public class FormaPago
+    public class FormaPago : Entity
     {
         [Key]
         public int ID_FormaPago { get; set; }

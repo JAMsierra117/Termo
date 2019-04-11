@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Termo.Generales.Core
 {
-    public class Producto
+    public class Producto : Entity
     {
         [Key]
         public int ID_Producto { get; set; }
