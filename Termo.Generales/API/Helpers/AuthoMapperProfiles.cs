@@ -20,7 +20,7 @@ namespace Termo.Generales.API.Helpers
 
             });
 
-            CreateMap<Linea, LineasToReturnDTO>();
+            CreateMap<Linea, LineaToReturnDTO>();
             CreateMap<LineaForCreationDTO, Linea>();
 
             CreateMap<FormaPago, FormaPagoToReturnDTO>();

@@ -34,7 +34,7 @@ namespace Termo.Generales.API.Controllers
 
             var result = await PagedList<Linea>.CreateAsync(lineas, filtros.PageNumber, filtros.PageSize);
 
-            var lineasToReturn = _mapper.Map<IEnumerable<LineasToReturnDTO>>(result);
+            var lineasToReturn = _mapper.Map<IEnumerable<LineaToReturnDTO>>(result);
 
             Response.AddPagination(result.CurrentPage, result.PageSize, result.TotalCount, result.TotalPages);
 
@@ -47,7 +47,7 @@ namespace Termo.Generales.API.Controllers
         {
             var linea = await this._context.Lineas.FirstOrDefaultAsync(x => x.ID_Linea == ID_Linea);
 
-            var lineaToReturn = _mapper.Map<LineasToReturnDTO>(linea);
+            var lineaToReturn = _mapper.Map<LineaToReturnDTO>(linea);
 
             return Ok(lineaToReturn);
 
@@ -60,7 +60,7 @@ namespace Termo.Generales.API.Controllers
 
             await this._context.Lineas.AddAsync(linea);
 
-            var lineaToReturn = _mapper.Map<LineasToReturnDTO>(linea);
+            var lineaToReturn = _mapper.Map<LineaToReturnDTO>(linea);
 
             var result = await this._context.SaveChangesAsync() > 0;
 

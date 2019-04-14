@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Termo.Generales.API.DTOs
 {
-    public class LineasToReturnDTO
+    public class LineaToReturnDTO
     {
         public int ID_Linea { get; set; }
         public string CodigoLinea { get; set; }
