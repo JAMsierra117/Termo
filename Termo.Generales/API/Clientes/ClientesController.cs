@@ -30,6 +30,8 @@ namespace Termo.Generales.API.Clientes
         {
             var clientes = this._context.Clientes.AsQueryable();
 
+            clientes = clientes.Where(x => x.NombreCliente.Contains(filtros.NombreCliente));
+
             var result = await PagedList<Cliente>.CreateAsync(clientes, filtros.PageNumber, filtros.PageSize);
 
             var clientesToReturnDTO = this._mapper.Map<IEnumerable<ClienteToReturnDTO>>(result);

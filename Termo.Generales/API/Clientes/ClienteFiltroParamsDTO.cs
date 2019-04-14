@@ -7,5 +7,6 @@ namespace Termo.Generales.API.Clientes
 {
     public class ClienteFiltroParamsDTO :  PaginationParams
     {
+        public string NombreCliente { get; set; } = "";
     }
 }
