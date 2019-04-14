@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Termo.Generales.API.Helpers;
 using Termo.Generales.Core;
 using Termo.Generales.Data;
 
@@ -24,11 +26,15 @@ namespace Termo.Generales.API.Impuestos
         }
 
         [HttpGet] 
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery]ImpuestoFiltroParamsDTO filtros)
         {
-            var impuestos = await this._context.Impuestos.ToListAsync();
+            var impuestos = this._context.Impuestos.AsQueryable();
 
-            var impuestosToReturn = this._mapper.Map<IEnumerable<ImpuestoToReturnoDTO>>(impuestos);
+            var result = await PagedList<Impuesto>.CreateAsync(impuestos, filtros.PageNumber, filtros.PageSize);
+
+            var impuestosToReturn = this._mapper.Map<IEnumerable<ImpuestoToReturnoDTO>>(result);
+
+            Response.AddPagination(result.CurrentPage, result.PageSize, result.TotalCount, result.TotalPages);
 
             return Ok(impuestosToReturn);
         }
@@ -37,7 +43,6 @@ namespace Termo.Generales.API.Impuestos
         public async Task<IActionResult> Get(int ID_Impuesto)
         {
             var impuesto = await this._context.Impuestos.FirstOrDefaultAsync(x => x.ID_Impuesto == ID_Impuesto);
-
 
             var impuestoToReturnDTO = this._mapper.Map<ImpuestoToReturnoDTO>(impuesto);
 

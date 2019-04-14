@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Termo.Generales.API.DTOs;
+using Termo.Generales.API.Helpers;
+using Termo.Generales.API.Lineas;
 using Termo.Generales.Core;
 using Termo.Generales.Data;
 
@@ -25,11 +28,15 @@ namespace Termo.Generales.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery]LineaFiltroParamsDTO filtros)
         {
-            var lineas = await this._context.Lineas.ToListAsync();
+            var lineas = this._context.Lineas.AsQueryable();
 
-            var lineasToReturn = _mapper.Map<IEnumerable<LineasToReturnDTO>>(lineas);
+            var result = await PagedList<Linea>.CreateAsync(lineas, filtros.PageNumber, filtros.PageSize);
+
+            var lineasToReturn = _mapper.Map<IEnumerable<LineasToReturnDTO>>(result);
+
+            Response.AddPagination(result.CurrentPage, result.PageSize, result.TotalCount, result.TotalPages);
 
             return Ok(lineasToReturn);
 

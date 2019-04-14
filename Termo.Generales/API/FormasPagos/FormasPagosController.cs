@@ -28,7 +28,7 @@ namespace Termo.Generales.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery]FiltroFormaPagoParamsDTO filtros)
+        public async Task<IActionResult> Get([FromQuery]FormaPagoFiltroParamsDTO filtros)
         {
             var formasPagos = this._context.FormasPagos.AsQueryable();
 

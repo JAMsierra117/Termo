@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Termo.Generales.API.Helpers;
 using Termo.Generales.Core;
 using Termo.Generales.Data;
 
@@ -24,11 +26,15 @@ namespace Termo.Generales.API.ZonasImpuestos
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery]ZonaImpuestoFiltroParamsDTO filtros)
         {
-            var zonas = await this._context.ZonasImpuestos.ToListAsync();
+            var zonas = this._context.ZonasImpuestos.AsQueryable();
 
-            var zonasImpuestosToReturnDTO = this._mapper.Map<IEnumerable<ZonaImpuestoToReturnDTO>>(zonas);
+            var result = await PagedList<ZonaImpuesto>.CreateAsync(zonas, filtros.PageNumber, filtros.PageSize);
+
+            var zonasImpuestosToReturnDTO = this._mapper.Map<IEnumerable<ZonaImpuestoToReturnDTO>>(result);
+
+            Response.AddPagination(result.CurrentPage, result.PageSize, result.TotalCount, result.TotalPages);
 
             return Ok(zonasImpuestosToReturnDTO);
         }

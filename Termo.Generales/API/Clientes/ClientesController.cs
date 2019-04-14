@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Termo.Generales.API.Helpers;
 using Termo.Generales.Core;
 using Termo.Generales.Data;
 
@@ -24,13 +26,19 @@ namespace Termo.Generales.API.Clientes
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery]ClienteFiltroParamsDTO filtros)
         {
-            var clientes = await this._context.Clientes.ToListAsync();
+            var clientes = this._context.Clientes.AsQueryable();
 
-            var clientesToReturnDTO = this._mapper.Map<IEnumerable<ClienteToReturnDTO>>(clientes);
+            var result = await PagedList<Cliente>.CreateAsync(clientes, filtros.PageNumber, filtros.PageSize);
+
+            var clientesToReturnDTO = this._mapper.Map<IEnumerable<ClienteToReturnDTO>>(result);
+
+            Response.AddPagination(result.CurrentPage, result.PageSize,
+               result.TotalCount, result.TotalPages);
 
             return Ok(clientesToReturnDTO);
+            
         }
 
         [HttpGet("{ID_Cliente}",Name = "GetCliente")]
