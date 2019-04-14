@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Termo.Generales.API.DTOs;
+using Termo.Generales.API.FormasPagos;
+using Termo.Generales.API.Helpers;
 using Termo.Generales.Core;
 using Termo.Generales.Data;
 
@@ -25,11 +28,18 @@ namespace Termo.Generales.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery]FiltroFormaPagoParamsDTO filtros)
         {
-            var formasPagos = await this._context.FormasPagos.ToListAsync();
+            var formasPagos = this._context.FormasPagos.AsQueryable();
 
-            var formasPagosToReturn = _mapper.Map<IEnumerable<FormaPagoToReturnDTO>>(formasPagos);
+            formasPagos = formasPagos.Where(x => x.NombreFormaPago.Contains(filtros.NombreFormaPago));            
+
+            var result = await PagedList<FormaPago>.CreateAsync(formasPagos, filtros.PageNumber, filtros.PageSize);
+
+            var formasPagosToReturn = _mapper.Map<IEnumerable<FormaPagoToReturnDTO>>(result);
+
+            Response.AddPagination(result.CurrentPage, result.PageSize,
+                result.TotalCount, result.TotalPages);
 
             return Ok(formasPagosToReturn);
         }
