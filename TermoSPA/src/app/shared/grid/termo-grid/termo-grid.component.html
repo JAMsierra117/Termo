@@ -1,0 +1,70 @@
+<div
+  id="datatable_wrapper"
+  class="dataTables_wrapper form-inline dt-bootstrap no-footer form-inline"
+>
+  <div class="row">
+    <div class="col-sm-6">
+      <button class="btn btn-primary" (click)="nuevo()">Nuevo</button>
+    </div>
+    <div class="col-sm-6">
+      <div class="pull-right">
+        <label style="font-weight: normal"
+          >Buscar
+          <input type="search" class="form-control input-sm" />
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <table class="table table-striped table-hover jambo_table">
+        <thead>
+          <tr class="headings">
+            <th
+              class="column-title"
+              *ngFor="let col of settings.columns"
+              [ngStyle]="col.styleHeader"
+            >
+              {{ col.title }}
+            </th>
+            <th style="width: 105px; text-align: center;">
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="" *ngFor="let row of data">
+            <td
+              *ngFor="let col of settings.columns"
+              [ngStyle]="col.styleContent"
+            >
+              <div *ngIf="col.template">
+                <div [innerHTML]="col.template(row)"></div>
+              </div>
+              <div *ngIf="!col.template">
+                {{ row[col.dataIndex] }}
+              </div>
+            </td>
+            <td>
+              <span class="btn btn-warning"><i class="fa fa-edit"></i></span>
+              <button type="button" class="btn btn-danger">
+                <i class="fa fa-trash-o"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-5">
+      Mostrando 1 - 20 de 100
+    </div>
+    <div class="col-sm-7">
+      <div class="pull-right">
+        <pagination [totalItems]="30"></pagination>
+      </div>
+    </div>
+  </div>
+</div>

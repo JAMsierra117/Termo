@@ -1,8 +1,8 @@
-import { NgModule } from "@angular/core";
+import { NgModule } from '@angular/core';
 
-import { Routes, RouterModule } from "@angular/router";
+import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { ClientesComponent } from './generales/clientes/clientes.component';
+import { GridClientesComponent } from './generales/clientes/grid-clientes.component';
 import { ProductosComponent } from './generales/productos/productos.component';
 import { LineasComponent } from './generales/lineas/lineas.component';
 import { ImpuesosComponent } from './generales/impuesos/impuesos.component';
@@ -12,8 +12,8 @@ import { FormaspagosComponent } from './generales/formaspagos/formaspagos.compon
 
 
 const routes: Routes = [
-    { path: 'dashboard', component: DashboardComponent },  
-    { path: 'clientes', component: ClientesComponent },
+    { path: 'dashboard', component: DashboardComponent },
+    { path: 'clientes', component: GridClientesComponent },
     { path: 'productos', component: ProductosComponent },
     { path: 'lineas', component: LineasComponent },
     { path: 'impuestos', component: ImpuesosComponent },
@@ -26,7 +26,7 @@ const routes: Routes = [
     { path: '**', component: DashboardComponent }
   ];
 
-  @NgModule({
+@NgModule({
     imports: [
         RouterModule.forRoot(routes)
     ],
@@ -35,4 +35,3 @@ const routes: Routes = [
     ]
   })
   export class AppRoutingModule {}
-  
